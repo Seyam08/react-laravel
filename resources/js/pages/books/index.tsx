@@ -1,7 +1,7 @@
 import { Head } from '@inertiajs/react';
 import { Fragment } from 'react';
 
-import { BookItem } from '@/components/book-item';
+import { BookItem } from '@/components/book-components/book-item';
 import { ItemGroup } from '@/components/ui/item';
 import type { Book } from '@/types';
 
