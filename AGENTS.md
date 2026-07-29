@@ -205,3 +205,9 @@ Use Wayfinder to generate TypeScript functions for Laravel routes. Import from `
 - IMPORTANT: Activate `inertia-react-development` when working with Inertia React client-side patterns.
 
 </laravel-boost-guidelines>
+
+=== project override rules ===
+
+# Test Policy Override
+
+- Do NOT write or modify tests unless user explicitly asks for tests. This overrides the "Test Enforcement" rule above.
