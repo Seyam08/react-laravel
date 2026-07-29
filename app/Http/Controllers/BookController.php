@@ -11,7 +11,7 @@ class BookController extends Controller
 {
     public function index()
     {
-        $books = Book::whereHas('user', fn($query) => $query->where('role', Role::Author))->with('user')->orderBy('created_at', 'desc')->paginate(10);
+        $books = Book::whereHas('user', fn ($query) => $query->where('role', Role::Author))->with('user')->orderBy('created_at', 'desc')->paginate(10);
 
         return Inertia::render('books/index', [
             'books' => $books,
@@ -34,14 +34,14 @@ class BookController extends Controller
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'user_id' => ['required', 'exists:users,id'],
             'description' => ['required', 'string'],
             'price' => ['required', 'numeric', 'min:0'],
         ]);
 
-        $book = Book::create($validated);
+        $book = $request->user()->books()->create($validated);
 
-        return to_route('books.show', $book)->with('success', 'Book created successfully.');
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Book created successfully.')]);
 
+        return to_route('books.show', $book);
     }
 }
