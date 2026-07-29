@@ -11,7 +11,9 @@ import {
     ItemTitle,
 } from '@/components/ui/item';
 import { useInitials } from '@/hooks/use-initials';
+import books from '@/routes/books';
 import type { Book } from '@/types';
+import { Link } from '@inertiajs/react';
 
 export function BookItem({ book }: { book: Book }) {
     const getInitials = useInitials();
@@ -22,7 +24,9 @@ export function BookItem({ book }: { book: Book }) {
                 <BookIcon />
             </ItemMedia>
             <ItemContent className="space-y-2">
-                <ItemTitle className="text-xl">{book.title}</ItemTitle>
+                <ItemTitle className="text-xl">
+                    <Link href={books.show(book.id)}>{book.title}</Link>
+                </ItemTitle>
                 <ItemDescription>{book.description}</ItemDescription>
                 <ItemFooter>
                     <div className="flex items-center gap-2">

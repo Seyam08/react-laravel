@@ -10,7 +10,7 @@ export default function BooksIndex({ books }: { books: { data: Book[] } }) {
         <>
             <Head title="Books" />
             <h1 className="text-2xl font-semibold">Books</h1>
-            <ItemGroup className="mt-6">
+            <ItemGroup className="mt-6 space-y-4">
                 {books.data.map((book) => (
                     <Fragment key={book.id}>
                         <BookItem book={book} />
