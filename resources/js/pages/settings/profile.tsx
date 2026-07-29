@@ -4,6 +4,7 @@ import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileCo
 import DeleteUser from '@/components/delete-user';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -36,6 +37,10 @@ export default function Profile({
                     title="Profile"
                     description="Update your name and email address"
                 />
+
+                <Badge variant={auth.user.role === 'author' ? 'default' : 'secondary'}>
+                    {auth.user.role === 'author' ? 'Author' : 'User'}
+                </Badge>
 
                 <Form
                     {...ProfileController.update.form()}
