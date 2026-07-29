@@ -4,6 +4,7 @@ import { ArrowLeftIcon, BookIcon } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { useInitials } from '@/hooks/use-initials';
+import authors from '@/routes/authors';
 import books from '@/routes/books';
 import type { Book } from '@/types';
 
@@ -44,7 +45,12 @@ export function BookCard({ book }: { book: Book }) {
                             </AvatarFallback>
                         </Avatar>
                         <span className="text-sm text-muted-foreground">
-                            {book.user.name}
+                            <Link
+                                href={authors.show(book.user.id)}
+                                className="hover:underline"
+                            >
+                                {book.user.name}
+                            </Link>
                         </span>
                     </div>
                 </div>

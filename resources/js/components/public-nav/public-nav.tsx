@@ -18,12 +18,14 @@ import {
 } from '@/components/ui/sheet';
 import { useCurrentUrl } from '@/hooks/use-current-url';
 import { cn } from '@/lib/utils';
+import authors from '@/routes/authors';
 import books from '@/routes/books';
 import type { NavItem } from '@/types';
 
 const navItems: NavItem[] = [
     { title: 'Home', href: '/' },
     { title: 'Books', href: books.index() },
+    { title: 'Authors', href: authors.index() },
     { title: 'About', href: '#' },
     { title: 'Contact', href: '#' },
 ];

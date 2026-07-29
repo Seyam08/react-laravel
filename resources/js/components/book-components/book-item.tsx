@@ -11,6 +11,7 @@ import {
     ItemTitle,
 } from '@/components/ui/item';
 import { useInitials } from '@/hooks/use-initials';
+import authors from '@/routes/authors';
 import books from '@/routes/books';
 import type { Book } from '@/types';
 import { Link } from '@inertiajs/react';
@@ -40,7 +41,12 @@ export function BookItem({ book }: { book: Book }) {
                             </AvatarFallback>
                         </Avatar>
                         <span className="text-sm text-muted-foreground">
-                            {book.user.name}
+                            <Link
+                                href={authors.show(book.user.id)}
+                                className="hover:underline"
+                            >
+                                {book.user.name}
+                            </Link>
                         </span>
                     </div>
                     <Badge variant="secondary">${book.price}</Badge>
