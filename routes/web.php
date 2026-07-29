@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use Illuminate\Support\Facades\Route;
 
@@ -8,6 +9,11 @@ Route::inertia('/', 'welcome')->name('home');
 Route::controller(BookController::class)->group(function () {
     Route::get('/books', 'index')->name('books.index');
     Route::get('/books/{book}', 'show')->name('books.show');
+});
+
+Route::controller(AuthorController::class)->group(function () {
+    Route::get('/authors', 'index')->name('authors.index');
+    Route::get('/authors/{author}', 'show')->name('authors.show');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
