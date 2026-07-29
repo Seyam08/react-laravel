@@ -37,13 +37,13 @@ export function PublicNav() {
 
     return (
         <div className="border-b border-sidebar-border/80">
-            <div className="mx-auto flex h-16 w-full max-w-7xl justify-between px-4">
+            <div className="relative mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4">
                 <Link href="/" className="flex items-center space-x-2">
                     <AppLogo />
                 </Link>
 
                 {/* Desktop Navigation */}
-                <div className="ml-6 hidden h-full flex-1 items-center justify-between lg:flex">
+                <div className="absolute left-1/2 hidden h-full -translate-x-1/2 items-center lg:flex">
                     <NavigationMenu className="flex h-full items-stretch">
                         <NavigationMenuList className="flex h-full items-stretch space-x-2">
                             {navItems.map((item) => (
@@ -71,45 +71,46 @@ export function PublicNav() {
                             ))}
                         </NavigationMenuList>
                     </NavigationMenu>
+                </div>
 
-                    <div className="flex items-center gap-2">
-                        {auth.user ? (
+                {/* Desktop auth actions */}
+                <div className="hidden items-center gap-2 lg:flex">
+                    {auth.user ? (
+                        <Link
+                            href={dashboard()}
+                            className={cn(
+                                navigationMenuTriggerStyle(),
+                                'h-9 cursor-pointer px-3',
+                            )}
+                        >
+                            Dashboard
+                        </Link>
+                    ) : (
+                        <>
                             <Link
-                                href={dashboard()}
+                                href={login()}
                                 className={cn(
                                     navigationMenuTriggerStyle(),
                                     'h-9 cursor-pointer px-3',
                                 )}
                             >
-                                Dashboard
+                                Log in
                             </Link>
-                        ) : (
-                            <>
-                                <Link
-                                    href={login()}
-                                    className={cn(
-                                        navigationMenuTriggerStyle(),
-                                        'h-9 cursor-pointer px-3',
-                                    )}
-                                >
-                                    Log in
-                                </Link>
-                                <Link
-                                    href={register()}
-                                    className={cn(
-                                        navigationMenuTriggerStyle(),
-                                        'h-9 cursor-pointer px-3',
-                                    )}
-                                >
-                                    Register
-                                </Link>
-                            </>
-                        )}
-                    </div>
+                            <Link
+                                href={register()}
+                                className={cn(
+                                    navigationMenuTriggerStyle(),
+                                    'h-9 cursor-pointer px-3',
+                                )}
+                            >
+                                Register
+                            </Link>
+                        </>
+                    )}
                 </div>
 
                 {/* Mobile Menu */}
-                <div className="ml-auto lg:hidden">
+                <div className="lg:hidden">
                     <Sheet>
                         <SheetTrigger asChild>
                             <Button
