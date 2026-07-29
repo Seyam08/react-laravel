@@ -3,8 +3,8 @@ import { ArrowLeftIcon } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import authors from '@/routes/authors';
 import { useInitials } from '@/hooks/use-initials';
+import authors from '@/routes/authors';
 import type { Author } from '@/types';
 
 export function AuthorCard({ author }: { author: Author }) {

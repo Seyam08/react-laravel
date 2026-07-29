@@ -1,3 +1,4 @@
+import { Link } from '@inertiajs/react';
 import { BookIcon } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -14,7 +15,6 @@ import { useInitials } from '@/hooks/use-initials';
 import authors from '@/routes/authors';
 import books from '@/routes/books';
 import type { Book } from '@/types';
-import { Link } from '@inertiajs/react';
 
 export function BookItem({ book }: { book: Book }) {
     const getInitials = useInitials();

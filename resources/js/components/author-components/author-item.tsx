@@ -1,3 +1,4 @@
+import { Link } from '@inertiajs/react';
 import { UserIcon } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -12,7 +13,6 @@ import {
 import { useInitials } from '@/hooks/use-initials';
 import authors from '@/routes/authors';
 import type { Author } from '@/types';
-import { Link } from '@inertiajs/react';
 
 export function AuthorItem({ author }: { author: Author }) {
     const getInitials = useInitials();
