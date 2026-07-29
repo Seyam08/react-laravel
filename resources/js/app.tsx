@@ -20,6 +20,7 @@ createInertiaApp({
             case name.startsWith('settings/'):
                 return [AppLayout, SettingsLayout];
             case name === 'dashboard':
+            case name === 'books/create':
                 return AppLayout;
             default:
                 return PublicLayout;
