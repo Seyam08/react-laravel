@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { Menu } from 'lucide-react';
 
 import AppLogo from '@/components/app-logo';
@@ -18,16 +18,14 @@ import {
 } from '@/components/ui/sheet';
 import { useCurrentUrl } from '@/hooks/use-current-url';
 import { cn } from '@/lib/utils';
+import { dashboard, login, register } from '@/routes';
 import authors from '@/routes/authors';
 import books from '@/routes/books';
 import type { NavItem } from '@/types';
 
 const navItems: NavItem[] = [
-    { title: 'Home', href: '/' },
     { title: 'Books', href: books.index() },
     { title: 'Authors', href: authors.index() },
-    { title: 'About', href: '#' },
-    { title: 'Contact', href: '#' },
 ];
 
 const activeItemStyles =
@@ -35,6 +33,7 @@ const activeItemStyles =
 
 export function PublicNav() {
     const { isCurrentUrl, whenCurrentUrl } = useCurrentUrl();
+    const { auth } = usePage().props;
 
     return (
         <div className="border-b border-sidebar-border/80">
@@ -44,7 +43,7 @@ export function PublicNav() {
                 </Link>
 
                 {/* Desktop Navigation */}
-                <div className="ml-6 hidden h-full items-center lg:flex">
+                <div className="ml-6 hidden h-full flex-1 items-center justify-between lg:flex">
                     <NavigationMenu className="flex h-full items-stretch">
                         <NavigationMenuList className="flex h-full items-stretch space-x-2">
                             {navItems.map((item) => (
@@ -72,6 +71,41 @@ export function PublicNav() {
                             ))}
                         </NavigationMenuList>
                     </NavigationMenu>
+
+                    <div className="flex items-center gap-2">
+                        {auth.user ? (
+                            <Link
+                                href={dashboard()}
+                                className={cn(
+                                    navigationMenuTriggerStyle(),
+                                    'h-9 cursor-pointer px-3',
+                                )}
+                            >
+                                Dashboard
+                            </Link>
+                        ) : (
+                            <>
+                                <Link
+                                    href={login()}
+                                    className={cn(
+                                        navigationMenuTriggerStyle(),
+                                        'h-9 cursor-pointer px-3',
+                                    )}
+                                >
+                                    Log in
+                                </Link>
+                                <Link
+                                    href={register()}
+                                    className={cn(
+                                        navigationMenuTriggerStyle(),
+                                        'h-9 cursor-pointer px-3',
+                                    )}
+                                >
+                                    Register
+                                </Link>
+                            </>
+                        )}
+                    </div>
                 </div>
 
                 {/* Mobile Menu */}
@@ -100,6 +134,29 @@ export function PublicNav() {
                                         {item.title}
                                     </Link>
                                 ))}
+                                {auth.user ? (
+                                    <Link
+                                        href={dashboard()}
+                                        className="font-medium"
+                                    >
+                                        Dashboard
+                                    </Link>
+                                ) : (
+                                    <>
+                                        <Link
+                                            href={login()}
+                                            className="font-medium"
+                                        >
+                                            Log in
+                                        </Link>
+                                        <Link
+                                            href={register()}
+                                            className="font-medium"
+                                        >
+                                            Register
+                                        </Link>
+                                    </>
+                                )}
                             </div>
                         </SheetContent>
                     </Sheet>
