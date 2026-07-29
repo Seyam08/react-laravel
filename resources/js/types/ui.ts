@@ -13,6 +13,19 @@ export type FlashToast = {
     message: string;
 };
 
+export type PaginationLinkItem = {
+    url: string | null;
+    label: string;
+    active: boolean;
+};
+
+export type Paginated<T> = {
+    data: T[];
+    links: PaginationLinkItem[];
+    current_page: number;
+    last_page: number;
+};
+
 export type AuthLayoutProps = {
     children?: ReactNode;
     name?: string;
