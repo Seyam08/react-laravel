@@ -1,3 +1,7 @@
+# Project-Specific Overrides
+
+- Do not write or modify tests for this project. This overrides the "Test Enforcement" and "Pest" rules below — skip the test-writing step entirely, even for new features or bug fixes.
+
 <laravel-boost-guidelines>
 === foundation rules ===
 
