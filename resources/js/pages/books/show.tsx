@@ -8,7 +8,7 @@ export default function BooksShow({
     can,
 }: {
     book: Book;
-    can: { delete: boolean };
+    can: { update: boolean; delete: boolean };
 }) {
     return (
         <>

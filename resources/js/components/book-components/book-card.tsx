@@ -23,7 +23,7 @@ export function BookCard({
     can,
 }: {
     book: Book;
-    can?: { delete: boolean };
+    can?: { update: boolean; delete: boolean };
 }) {
     const getInitials = useInitials();
 
@@ -50,6 +50,12 @@ export function BookCard({
                             <Badge variant="secondary" className="text-base">
                                 ${book.price}
                             </Badge>
+
+                            {can?.update && (
+                                <Button variant="outline" size="sm" asChild>
+                                    <Link href={books.edit(book.id)}>Edit</Link>
+                                </Button>
+                            )}
 
                             {can?.delete && (
                                 <Dialog>

@@ -57,6 +57,10 @@ function MyBookItem({ book }: { book: Book }) {
                 <ItemFooter>
                     <Badge variant="secondary">${book.price}</Badge>
                     <ItemActions>
+                        <Button variant="outline" size="sm" asChild>
+                            <Link href={books.edit(book.id)}>Edit</Link>
+                        </Button>
+
                         <Dialog>
                             <DialogTrigger asChild>
                                 <Button variant="destructive" size="sm">
