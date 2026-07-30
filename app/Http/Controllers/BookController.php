@@ -11,7 +11,7 @@ class BookController extends Controller
 {
     public function index()
     {
-        $books = Book::whereHas('user', fn ($query) => $query->where('role', Role::Author))->with('user')->orderBy('created_at', 'desc')->paginate(10);
+        $books = Book::whereHas('user', fn($query) => $query->where('role', Role::Author))->with('user')->orderBy('created_at', 'desc')->paginate(10);
 
         return Inertia::render('books/index', [
             'books' => $books,
@@ -56,5 +56,14 @@ class BookController extends Controller
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Book deleted successfully.')]);
 
         return to_route('books.index');
+    }
+
+    public function myBooks(Request $request)
+    {
+        $books = $request->user()->books()->orderBy('created_at', 'desc')->paginate(10);
+
+        return Inertia::render('books/my-books', [
+            'books' => $books,
+        ]);
     }
 }
