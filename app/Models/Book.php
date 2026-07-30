@@ -14,7 +14,7 @@ class Book extends Model
     /** @use HasFactory<BookFactory> */
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'price', 'user_id'];
+    protected $fillable = ['title', 'description', 'price'];
 
     public function user()
     {

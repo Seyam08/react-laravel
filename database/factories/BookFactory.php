@@ -23,7 +23,17 @@ class BookFactory extends Factory
             'title' => fake()->sentence(3),
             'description' => fake()->paragraph(5),
             'price' => fake()->randomFloat(3, 10, 999),
-            'user_id' => User::where('role', Role::Author)->inRandomOrder()->first()->id ?? User::factory()->create(['role' => Role::Author])->id,
         ];
+    }
+
+    /**
+     * Configure the model factory.
+     */
+    public function configure(): static
+    {
+        return $this->afterMaking(function (Book $book) {
+            $book->user_id = User::where('role', Role::Author)->inRandomOrder()->first()->id
+                ?? User::factory()->create(['role' => Role::Author])->id;
+        });
     }
 }
