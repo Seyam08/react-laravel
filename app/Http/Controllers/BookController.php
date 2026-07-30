@@ -44,4 +44,14 @@ class BookController extends Controller
 
         return to_route('books.show', $book);
     }
+
+    public function destroy(Book $book)
+    {
+        $this->authorize('delete', $book);
+        $book->delete();
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Book deleted successfully.')]);
+
+        return to_route('books.index');
+    }
 }

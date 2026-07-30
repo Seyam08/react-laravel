@@ -9,6 +9,7 @@ Route::inertia('/', 'welcome')->name('home');
 Route::middleware(['auth'])->controller(BookController::class)->group(function () {
     Route::get('/books/create', 'create')->name('books.create');
     Route::post('/books', 'store')->name('books.store');
+    Route::delete('/books/{book}', 'destroy')->name('books.destroy');
 });
 
 Route::controller(BookController::class)->group(function () {
