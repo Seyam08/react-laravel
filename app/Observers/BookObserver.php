@@ -18,4 +18,13 @@ class BookObserver
             $user->update(['role' => Role::Author]);
         }
     }
+
+    public function deleted(Book $book): void
+    {
+        $user = $book->user;
+
+        if ($user->role === Role::Author && !$user->books()->exists()) {
+            $user->update(['role' => Role::User]);
+        }
+    }
 }
