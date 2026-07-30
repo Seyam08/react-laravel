@@ -18,10 +18,13 @@ class BookController extends Controller
         ]);
     }
 
-    public function show(Book $book)
+    public function show(Request $request, Book $book)
     {
         return Inertia::render('books/show', [
             'book' => $book->load('user'),
+            'can' => [
+                'delete' => $request->user()?->can('delete', $book) ?? false,
+            ],
         ]);
     }
 

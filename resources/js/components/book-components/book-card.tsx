@@ -1,14 +1,30 @@
-import { Link } from '@inertiajs/react';
+import { Form, Link } from '@inertiajs/react';
 import { ArrowLeftIcon, BookIcon } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog';
 import { useInitials } from '@/hooks/use-initials';
 import authors from '@/routes/authors';
 import books from '@/routes/books';
 import type { Book } from '@/types';
 
-export function BookCard({ book }: { book: Book }) {
+export function BookCard({
+    book,
+    can,
+}: {
+    book: Book;
+    can?: { delete: boolean };
+}) {
     const getInitials = useInitials();
 
     return (
@@ -30,9 +46,51 @@ export function BookCard({ book }: { book: Book }) {
                         <h1 className="text-3xl font-semibold tracking-tight">
                             {book.title}
                         </h1>
-                        <Badge variant="secondary" className="text-base">
-                            ${book.price}
-                        </Badge>
+                        <div className="flex items-center gap-2">
+                            <Badge variant="secondary" className="text-base">
+                                ${book.price}
+                            </Badge>
+
+                            {can?.delete && (
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <Button variant="destructive" size="sm">
+                                            Delete
+                                        </Button>
+                                    </DialogTrigger>
+                                    <DialogContent>
+                                        <DialogTitle>
+                                            Delete "{book.title}"?
+                                        </DialogTitle>
+                                        <DialogDescription>
+                                            This cannot be undone.
+                                        </DialogDescription>
+
+                                        <Form
+                                            action={books.destroy.url(book.id)}
+                                            method="delete"
+                                        >
+                                            {({ processing }) => (
+                                                <DialogFooter className="gap-2">
+                                                    <DialogClose asChild>
+                                                        <Button variant="secondary">
+                                                            Cancel
+                                                        </Button>
+                                                    </DialogClose>
+                                                    <Button
+                                                        type="submit"
+                                                        variant="destructive"
+                                                        disabled={processing}
+                                                    >
+                                                        Delete
+                                                    </Button>
+                                                </DialogFooter>
+                                            )}
+                                        </Form>
+                                    </DialogContent>
+                                </Dialog>
+                            )}
+                        </div>
                     </div>
                     <div className="flex items-center gap-2">
                         <Avatar className="h-6 w-6 overflow-hidden rounded-full">
