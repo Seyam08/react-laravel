@@ -21,6 +21,7 @@ createInertiaApp({
                 return [AppLayout, SettingsLayout];
             case name === 'dashboard':
             case name === 'books/create':
+            case name === 'books/edit':
             case name === 'books/my-books':
                 return AppLayout;
             default:
