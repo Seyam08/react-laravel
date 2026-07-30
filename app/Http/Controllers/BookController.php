@@ -11,7 +11,7 @@ class BookController extends Controller
 {
     public function index()
     {
-        $books = Book::whereHas('user', fn($query) => $query->where('role', Role::Author))->with('user')->orderBy('created_at', 'desc')->paginate(10);
+        $books = Book::whereHas('user', fn ($query) => $query->where('role', Role::Author))->with('user')->orderBy('created_at', 'desc')->paginate(10);
 
         return Inertia::render('books/index', [
             'books' => $books,
@@ -23,6 +23,7 @@ class BookController extends Controller
         return Inertia::render('books/show', [
             'book' => $book->load('user'),
             'can' => [
+                'update' => $request->user()?->can('update', $book) ?? false,
                 'delete' => $request->user()?->can('delete', $book) ?? false,
             ],
         ]);
@@ -44,6 +45,32 @@ class BookController extends Controller
         $book = $request->user()->books()->create($validated);
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Book created successfully.')]);
+
+        return to_route('books.show', $book);
+    }
+
+    public function edit(Book $book)
+    {
+        $this->authorize('update', $book);
+
+        return Inertia::render('books/edit', [
+            'book' => $book,
+        ]);
+    }
+
+    public function update(Request $request, Book $book)
+    {
+        $this->authorize('update', $book);
+
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string'],
+            'price' => ['required', 'numeric', 'min:0'],
+        ]);
+
+        $book->update($validated);
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Book updated successfully.')]);
 
         return to_route('books.show', $book);
     }

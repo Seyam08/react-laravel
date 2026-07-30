@@ -9,6 +9,8 @@ Route::inertia('/', 'welcome')->name('home');
 Route::middleware(['auth'])->controller(BookController::class)->group(function () {
     Route::get('/books/create', 'create')->name('books.create');
     Route::post('/books', 'store')->name('books.store');
+    Route::get('/books/{book}/edit', 'edit')->name('books.edit');
+    Route::put('/books/{book}', 'update')->name('books.update');
     Route::delete('/books/{book}', 'destroy')->name('books.destroy');
     Route::get('/my-books', 'myBooks')->name('books.my');
 });
@@ -27,4 +29,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
 });
 
-require __DIR__ . '/settings.php';
+require __DIR__.'/settings.php';
