@@ -13,7 +13,7 @@ class AuthorController extends Controller
     {
         $authors = User::where('role', Role::Author)
             ->withCount('books')
-            ->orderBy('name')
+            ->orderBy('created_at', 'desc')
             ->paginate(10);
 
         return Inertia::render('authors/index', [
