@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Role;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -11,21 +10,17 @@ class BookController extends Controller
 {
     public function index()
     {
-        $books = Book::whereHas('user', fn ($query) => $query->where('role', Role::Author))->with('user')->orderBy('created_at', 'desc')->paginate(10);
+        $books = Book::with('user')->orderBy('created_at', 'desc')->paginate(10);
 
         return Inertia::render('books/index', [
             'books' => $books,
         ]);
     }
 
-    public function show(Request $request, Book $book)
+    public function show(Book $book)
     {
         return Inertia::render('books/show', [
             'book' => $book->load('user'),
-            'can' => [
-                'update' => $request->user()?->can('update', $book) ?? false,
-                'delete' => $request->user()?->can('delete', $book) ?? false,
-            ],
         ]);
     }
 
@@ -51,8 +46,6 @@ class BookController extends Controller
 
     public function edit(Book $book)
     {
-        $this->authorize('update', $book);
-
         return Inertia::render('books/edit', [
             'book' => $book,
         ]);
@@ -60,8 +53,6 @@ class BookController extends Controller
 
     public function update(Request $request, Book $book)
     {
-        $this->authorize('update', $book);
-
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
@@ -77,7 +68,6 @@ class BookController extends Controller
 
     public function destroy(Book $book)
     {
-        $this->authorize('delete', $book);
         $book->delete();
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Book deleted successfully.')]);

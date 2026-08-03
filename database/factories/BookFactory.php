@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Enums\Role;
 use App\Models\Book;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -32,8 +31,8 @@ class BookFactory extends Factory
     public function configure(): static
     {
         return $this->afterMaking(function (Book $book) {
-            $book->user_id = User::where('role', Role::Author)->inRandomOrder()->first()->id
-                ?? User::factory()->create(['role' => Role::Author])->id;
+            $book->user_id = User::inRandomOrder()->first()->id
+                ?? User::factory()->create()->id;
         });
     }
 }

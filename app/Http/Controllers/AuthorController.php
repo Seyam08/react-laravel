@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Role;
 use App\Models\User;
 use Inertia\Inertia;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -11,7 +10,7 @@ class AuthorController extends Controller
 {
     public function index()
     {
-        $authors = User::where('role', Role::Author)
+        $authors = User::has('books')
             ->withCount('books')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
@@ -23,7 +22,7 @@ class AuthorController extends Controller
 
     public function show(User $author)
     {
-        if ($author->role !== Role::Author) {
+        if ($author->books()->doesntExist()) {
             throw new NotFoundHttpException;
         }
 
