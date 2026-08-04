@@ -45,47 +45,51 @@ export function BookCard({ book }: { book: Book }) {
                                 ${book.price}
                             </Badge>
 
-                            <Button variant="outline" size="sm" asChild>
-                                <Link href={books.edit(book.id)}>Edit</Link>
-                            </Button>
+                            {book.can?.update && (
+                                <Button variant="outline" size="sm" asChild>
+                                    <Link href={books.edit(book.id)}>Edit</Link>
+                                </Button>
+                            )}
 
-                            <Dialog>
-                                <DialogTrigger asChild>
-                                    <Button variant="destructive" size="sm">
-                                        Delete
-                                    </Button>
-                                </DialogTrigger>
-                                <DialogContent>
-                                    <DialogTitle>
-                                        Delete "{book.title}"?
-                                    </DialogTitle>
-                                    <DialogDescription>
-                                        This cannot be undone.
-                                    </DialogDescription>
+                            {book.can?.delete && (
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <Button variant="destructive" size="sm">
+                                            Delete
+                                        </Button>
+                                    </DialogTrigger>
+                                    <DialogContent>
+                                        <DialogTitle>
+                                            Delete "{book.title}"?
+                                        </DialogTitle>
+                                        <DialogDescription>
+                                            This cannot be undone.
+                                        </DialogDescription>
 
-                                    <Form
-                                        action={books.destroy.url(book.id)}
-                                        method="delete"
-                                    >
-                                        {({ processing }) => (
-                                            <DialogFooter className="gap-2">
-                                                <DialogClose asChild>
-                                                    <Button variant="secondary">
-                                                        Cancel
+                                        <Form
+                                            action={books.destroy.url(book.id)}
+                                            method="delete"
+                                        >
+                                            {({ processing }) => (
+                                                <DialogFooter className="gap-2">
+                                                    <DialogClose asChild>
+                                                        <Button variant="secondary">
+                                                            Cancel
+                                                        </Button>
+                                                    </DialogClose>
+                                                    <Button
+                                                        type="submit"
+                                                        variant="destructive"
+                                                        disabled={processing}
+                                                    >
+                                                        Delete
                                                     </Button>
-                                                </DialogClose>
-                                                <Button
-                                                    type="submit"
-                                                    variant="destructive"
-                                                    disabled={processing}
-                                                >
-                                                    Delete
-                                                </Button>
-                                            </DialogFooter>
-                                        )}
-                                    </Form>
-                                </DialogContent>
-                            </Dialog>
+                                                </DialogFooter>
+                                            )}
+                                        </Form>
+                                    </DialogContent>
+                                </Dialog>
+                            )}
                         </div>
                     </div>
                     <div className="flex items-center gap-2">

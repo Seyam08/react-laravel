@@ -57,47 +57,51 @@ function MyBookItem({ book }: { book: Book }) {
                 <ItemFooter>
                     <Badge variant="secondary">${book.price}</Badge>
                     <ItemActions>
-                        <Button variant="outline" size="sm" asChild>
-                            <Link href={books.edit(book.id)}>Edit</Link>
-                        </Button>
+                        {book.can?.update && (
+                            <Button variant="outline" size="sm" asChild>
+                                <Link href={books.edit(book.id)}>Edit</Link>
+                            </Button>
+                        )}
 
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <Button variant="destructive" size="sm">
-                                    Delete
-                                </Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                                <DialogTitle>
-                                    Delete "{book.title}"?
-                                </DialogTitle>
-                                <DialogDescription>
-                                    This cannot be undone.
-                                </DialogDescription>
+                        {book.can?.delete && (
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <Button variant="destructive" size="sm">
+                                        Delete
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <DialogTitle>
+                                        Delete "{book.title}"?
+                                    </DialogTitle>
+                                    <DialogDescription>
+                                        This cannot be undone.
+                                    </DialogDescription>
 
-                                <Form
-                                    action={books.destroy.url(book.id)}
-                                    method="delete"
-                                >
-                                    {({ processing }) => (
-                                        <DialogFooter className="gap-2">
-                                            <DialogClose asChild>
-                                                <Button variant="secondary">
-                                                    Cancel
+                                    <Form
+                                        action={books.destroy.url(book.id)}
+                                        method="delete"
+                                    >
+                                        {({ processing }) => (
+                                            <DialogFooter className="gap-2">
+                                                <DialogClose asChild>
+                                                    <Button variant="secondary">
+                                                        Cancel
+                                                    </Button>
+                                                </DialogClose>
+                                                <Button
+                                                    type="submit"
+                                                    variant="destructive"
+                                                    disabled={processing}
+                                                >
+                                                    Delete
                                                 </Button>
-                                            </DialogClose>
-                                            <Button
-                                                type="submit"
-                                                variant="destructive"
-                                                disabled={processing}
-                                            >
-                                                Delete
-                                            </Button>
-                                        </DialogFooter>
-                                    )}
-                                </Form>
-                            </DialogContent>
-                        </Dialog>
+                                            </DialogFooter>
+                                        )}
+                                    </Form>
+                                </DialogContent>
+                            </Dialog>
+                        )}
                     </ItemActions>
                 </ItemFooter>
             </ItemContent>
@@ -105,7 +109,11 @@ function MyBookItem({ book }: { book: Book }) {
     );
 }
 
-export default function MyBooks({ books: pagedBooks }: { books: Paginated<Book> }) {
+export default function MyBooks({
+    books: pagedBooks,
+}: {
+    books: Paginated<Book>;
+}) {
     const firstLink = pagedBooks.links[0];
     const lastLink = pagedBooks.links[pagedBooks.links.length - 1];
     const pageLinks = pagedBooks.links.slice(1, -1);
@@ -154,7 +162,11 @@ export default function MyBooks({ books: pagedBooks }: { books: Paginated<Book> 
                                     <PaginationPrevious
                                         href={firstLink.url ?? '#'}
                                         aria-disabled={!firstLink.url}
-                                        className={!firstLink.url ? 'pointer-events-none opacity-50' : undefined}
+                                        className={
+                                            !firstLink.url
+                                                ? 'pointer-events-none opacity-50'
+                                                : undefined
+                                        }
                                         onClick={(e) => {
                                             e.preventDefault();
                                             visit(firstLink.url);
@@ -164,7 +176,9 @@ export default function MyBooks({ books: pagedBooks }: { books: Paginated<Book> 
 
                                 {pageLinks.map((link, index) =>
                                     link.label === '...' ? (
-                                        <PaginationItem key={`ellipsis-${index}`}>
+                                        <PaginationItem
+                                            key={`ellipsis-${index}`}
+                                        >
                                             <PaginationEllipsis />
                                         </PaginationItem>
                                     ) : (
@@ -187,7 +201,11 @@ export default function MyBooks({ books: pagedBooks }: { books: Paginated<Book> 
                                     <PaginationNext
                                         href={lastLink.url ?? '#'}
                                         aria-disabled={!lastLink.url}
-                                        className={!lastLink.url ? 'pointer-events-none opacity-50' : undefined}
+                                        className={
+                                            !lastLink.url
+                                                ? 'pointer-events-none opacity-50'
+                                                : undefined
+                                        }
                                         onClick={(e) => {
                                             e.preventDefault();
                                             visit(lastLink.url);
