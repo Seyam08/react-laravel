@@ -31,7 +31,11 @@ class BookObserver
      */
     public function deleted(Book $book): void
     {
-        //
+        $user = $book->user;
+
+        if ($user && $user->hasRole('author') && $user->books()->doesntExist()) {
+            $user->removeRole('author');
+        }
     }
 
     /**
