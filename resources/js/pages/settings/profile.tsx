@@ -4,6 +4,7 @@ import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileCo
 import DeleteUser from '@/components/delete-user';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -36,6 +37,14 @@ export default function Profile({
                     title="Profile"
                     description="Update your name and email address"
                 />
+
+                <div className="flex flex-wrap gap-2">
+                    {auth.user.roles.map((role) => (
+                        <Badge key={role} variant="secondary">
+                            {role}
+                        </Badge>
+                    ))}
+                </div>
 
                 <Form
                     {...ProfileController.update.form()}
