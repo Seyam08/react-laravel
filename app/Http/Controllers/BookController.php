@@ -26,11 +26,15 @@ class BookController extends Controller
 
     public function create()
     {
+        $this->authorize('create', Book::class);
+
         return Inertia::render('books/create');
     }
 
     public function store(Request $request)
     {
+        $this->authorize('create', Book::class);
+
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
@@ -46,6 +50,8 @@ class BookController extends Controller
 
     public function edit(Book $book)
     {
+        $this->authorize('update', $book);
+
         return Inertia::render('books/edit', [
             'book' => $book,
         ]);
@@ -53,6 +59,8 @@ class BookController extends Controller
 
     public function update(Request $request, Book $book)
     {
+        $this->authorize('update', $book);
+
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
@@ -68,6 +76,8 @@ class BookController extends Controller
 
     public function destroy(Book $book)
     {
+        $this->authorize('delete', $book);
+
         $book->delete();
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Book deleted successfully.')]);
