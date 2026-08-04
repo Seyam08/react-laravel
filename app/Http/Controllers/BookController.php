@@ -17,10 +17,18 @@ class BookController extends Controller
         ]);
     }
 
-    public function show(Book $book)
+    public function show(Request $request, Book $book)
     {
+        $book->load('user');
+
         return Inertia::render('books/show', [
-            'book' => $book->load('user'),
+            'book' => [
+                ...$book->toArray(),
+                'can' => [
+                    'update' => $request->user()?->can('update', $book) ?? false,
+                    'delete' => $request->user()?->can('delete', $book) ?? false,
+                ],
+            ],
         ]);
     }
 
@@ -88,6 +96,14 @@ class BookController extends Controller
     public function myBooks(Request $request)
     {
         $books = $request->user()->books()->orderBy('created_at', 'desc')->paginate(10);
+
+        $books->through(fn (Book $book) => [
+            ...$book->toArray(),
+            'can' => [
+                'update' => $request->user()->can('update', $book),
+                'delete' => $request->user()->can('delete', $book),
+            ],
+        ]);
 
         return Inertia::render('books/my-books', [
             'books' => $books,
